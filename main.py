@@ -1,6 +1,3 @@
-import re
-import string
-
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
@@ -9,43 +6,20 @@ from SmoteUpsample import SmoteTest
 from XGB import get_classifier
 
 
+def ExtractData(column_names, y_name):
+
+    X = # Load df with data having given column names
+    y = X[y_name]
+    feature_names = column_names.remove(y_name)
+    features = X[feature_names]
+
+    return features, y, feature_names, X
+
+
 def PrepareData():
-    # Load CSV to Pandas DF
-
     column_names = ['died', 'recovered', 'hospitalized', 'ext_stay', 'disabled', 'l_threat', 'er_visit', 'hospital_days', 'days_to_death', 'days_to_onset', 'n_symptoms']
-
-
-    # text = "Your mother was a hampster, and your Father smelt of Elder Berries!!!"
-    # print(clean_string(text))
-
-
-def clean_string(text):
-    # Part 1
-    text = text.lower()
-    text = re.sub('\[.*?\]', '', text)
-    text = re.sub('\[%s]' % re.escape(string.punctuation), '', text)
-    text = re.sub('\w*\d\w*', '', text)
-    text = re.sub('!', '', text)
-    text = re.sub(',', '', text)
-
-
-    # Part 2
-    text = re.sub('[`".]', '', text)
-    text = re.sub('\n\t', '', text)
-
-    return text
-
-
-    # All text lower,
-    # remove punctuation
-    # remove numerical values
-    # remove non speech (eg '\n')
-    # tokenize text
-    # remove stop words
-
-    # stemming/ lemmazation
-    # parts of speech tagging
-    pass
+    features, feature_names, y, df = ExtractData(column_names=column_names, y_name='died')
+    return features, y, feature_names, df
 
 
 def main():
@@ -55,21 +29,21 @@ def main():
     features, y, feature_names, df = PrepareData()
 
     # SPLIT SAMPLES
-    # features_train, features_test, y_train, y_test, df_train, df_test = train_test_split(features, y, df, test_size=0.3, stratify=y, random_state=42)
+    features_train, features_test, y_train, y_test, df_train, df_test = train_test_split(features, y, df, test_size=0.3, stratify=y, random_state=42)
 
     # BALANCE CLASSES
-    # features_train, y_train = SmoteTest(features_train, y_train)
+    features_train, y_train = SmoteTest(features_train, y_train)
     # features_train, y_train = BootStrap(features_train, y_train)
 
     # REMOVE USELESS DATA
-    # features_train, features_test, feature_names = RecursiveFeatureElimination(features_train, features_test, y_train, feature_names)
-    # features_train = pd.DataFrame(features_train, columns=feature_names)
-    # features_test = pd.DataFrame(features_test, columns=feature_names)
+    features_train, features_test, feature_names = RecursiveFeatureElimination(features_train, features_test, y_train, feature_names)
+    features_train = pd.DataFrame(features_train, columns=feature_names)
+    features_test = pd.DataFrame(features_test, columns=feature_names)
 
     # TRAIN ML MODEL
-    # clf = get_classifier()
-    # clf_name = 'XGBoost'
-    # clf.fit(features_train, y_train)
+    clf = get_classifier()
+    clf_name = 'XGBoost'
+    clf.fit(features_train, y_train)
 
     # EVALUATE
     # plot_confusion_matrix()
