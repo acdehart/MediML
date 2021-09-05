@@ -47,14 +47,15 @@ def clean_string(text):
 def main():
 
     # COLLECT DATA
-    PrepareData()
-    # features, y, feature_names, df = PrepareData()
+    # PrepareData()
+    features, y, feature_names, df = PrepareData()
 
     # SPLIT SAMPLES
     # features_train, features_test, y_train, y_test, df_train, df_test = train_test_split(features, y, df, test_size=0.3, stratify=y, random_state=42)
 
     # BALANCE CLASSES
     # features_train, y_train = SmoteTest(features_train, y_train)
+    # features_train, y_train = BootStrap(features_train, y_train)
 
     # REMOVE USELESS DATA
     # features_train, features_test, feature_names = RecursiveFeatureElimination(features_train, features_test, y_train, feature_names)
