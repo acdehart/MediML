@@ -11,8 +11,12 @@ from XGB import get_classifier
 
 def PrepareData():
     # Load CSV to Pandas DF
-    text = "Your mother was a hampster, and your Father smelt of Elder Berries!!!"
-    print(clean_string(text))
+
+    column_names = ['died', 'recovered', 'hospitalized', 'ext_stay', 'disabled', 'l_threat', 'er_visit', 'hospital_days', 'days_to_death', 'days_to_onset']
+
+
+    # text = "Your mother was a hampster, and your Father smelt of Elder Berries!!!"
+    # print(clean_string(text))
 
 
 def clean_string(text):
