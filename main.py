@@ -1,3 +1,6 @@
+import re
+import string
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
@@ -8,9 +11,27 @@ from XGB import get_classifier
 
 def PrepareData():
     # Load CSV to Pandas DF
-    pass
+    text = "Your mother was a hampster, and your Father smelt of Elder Berries!!!"
+    print(clean_string(text))
 
-def clean_string(input_string):
+
+def clean_string(text):
+    # Part 1
+    text = text.lower()
+    text = re.sub('\[.*?\]', '', text)
+    text = re.sub('\[%s]' % re.escape(string.punctuation), '', text)
+    text = re.sub('\w*\d\w*', '', text)
+    text = re.sub('!', '', text)
+    text = re.sub(',', '', text)
+
+
+    # Part 2
+    text = re.sub('[`".]', '', text)
+    text = re.sub('\n\t', '', text)
+
+    return text
+
+
     # All text lower,
     # remove punctuation
     # remove numerical values
@@ -20,29 +41,30 @@ def clean_string(input_string):
 
     # stemming/ lemmazation
     # parts of speech tagging
-
+    pass
 
 
 def main():
 
     # COLLECT DATA
-    features, y, feature_names, df = PrepareData()
+    PrepareData()
+    # features, y, feature_names, df = PrepareData()
 
     # SPLIT SAMPLES
-    features_train, features_test, y_train, y_test, df_train, df_test = train_test_split(features, y, df, test_size=0.3, stratify=y, random_state=42)
+    # features_train, features_test, y_train, y_test, df_train, df_test = train_test_split(features, y, df, test_size=0.3, stratify=y, random_state=42)
 
     # BALANCE CLASSES
-    features_train, y_train = SmoteTest(features_train, y_train)
+    # features_train, y_train = SmoteTest(features_train, y_train)
 
     # REMOVE USELESS DATA
-    features_train, features_test, feature_names = RecursiveFeatureElimination(features_train, features_test, y_train, feature_names)
-    features_train = pd.DataFrame(features_train, columns=feature_names)
-    features_test = pd.DataFrame(features_test, columns=feature_names)
+    # features_train, features_test, feature_names = RecursiveFeatureElimination(features_train, features_test, y_train, feature_names)
+    # features_train = pd.DataFrame(features_train, columns=feature_names)
+    # features_test = pd.DataFrame(features_test, columns=feature_names)
 
     # TRAIN ML MODEL
-    clf = get_classifier()
-    clf_name = 'XGBoost'
-    clf.fit(features_train, y_train)
+    # clf = get_classifier()
+    # clf_name = 'XGBoost'
+    # clf.fit(features_train, y_train)
 
     # EVALUATE
     # plot_confusion_matrix()
