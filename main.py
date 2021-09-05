@@ -12,7 +12,7 @@ from XGB import get_classifier
 def PrepareData():
     # Load CSV to Pandas DF
 
-    column_names = ['died', 'recovered', 'hospitalized', 'ext_stay', 'disabled', 'l_threat', 'er_visit', 'hospital_days', 'days_to_death', 'days_to_onset']
+    column_names = ['died', 'recovered', 'hospitalized', 'ext_stay', 'disabled', 'l_threat', 'er_visit', 'hospital_days', 'days_to_death', 'days_to_onset', 'n_symptoms']
 
 
     # text = "Your mother was a hampster, and your Father smelt of Elder Berries!!!"
