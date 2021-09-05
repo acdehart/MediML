@@ -1,4 +1,4 @@
-from random import random
+import random
 
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
@@ -10,17 +10,27 @@ from XGB import get_classifier
 from textblob import TextBlob
 import pyroot
 # from root_pandas import read_root
+
 from convert_ntuple_df import root_to_df
 
+pd.set_option("display.max_rows", 5)
+pd.set_option("max_colwidth", 4000)
+pd.set_option("display.max_columns", 999)
 
 def ExtractData(column_names, y_name):
     if not column_names or not y_name:
         raise ValueError("Feed me daddy!!!")
+
     X = root_to_df('TVAERS_ntuple.root', column_names)
-    print(X)
+    print(f"X: {X}")
     y = X[y_name]
-    feature_names = column_names.remove(y_name)
-    features = X[feature_names]
+    print(f"y: {y}")
+    # feature_names = column_names.remove(y_name)
+    print(f"column_names: {column_names}")
+    column_names.remove(y_name)
+    print(f"feature_names: {column_names}")
+    features = X[column_names]
+    print(f"features: {features}")
 
     # symptoms = X['symptoms']
     # symptom_sentiment = [TextBlob(text).sentiment for text in symptoms ]
@@ -29,12 +39,11 @@ def ExtractData(column_names, y_name):
     # data_cv = cv.fit_transform(X['symptoms'])
     # data_dtm = pd.DataFrame(data_cv.toarray(), columns=feature_names)
 
-    return features, y, feature_names, X
+    return features, y, column_names, X
 
 
 def PrepareData():
-    column_names = ['vaers_id', 'age_yrs', 'died', 'datedied', 'l_threat', 'er_visit', 'hospital', 'hospdays', 'x_stay',
-                    'disable', 'recovd', 'vax_date', 'numdays', 'symptoms']
+    column_names = ['vaers_id', 'age_yrs', 'died', 'l_threat', 'er_visit', 'hospital', 'hospdays', 'x_stay','disable', 'recovd', 'numdays', 'symptoms']
     features, feature_names, y, df = ExtractData(column_names=column_names, y_name='died')
     return features, y, feature_names, df
 
@@ -46,8 +55,7 @@ def main():
     features, y, feature_names, df = PrepareData()
 
     # SPLIT SAMPLES
-    features_train, features_test, y_train, y_test, df_train, df_test = train_test_split(features, y, df, test_size=0.3,
-                                                                                         stratify=y, random_state=42)
+    # features_train, features_test, y_train, y_test, df_train, df_test = train_test_split(features, y, df, test_size=0.3,stratify=y, random_state=42)
 
     # BALANCE CLASSES
     # features_train, y_train = BootStrap(features_train, y_train)
