@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 
 from FeatureElimination import RecursiveFeatureElimination
@@ -17,6 +18,9 @@ def ExtractData(column_names, y_name):
 
     # symptoms = X['symptoms']
     # symptom_sentiment = [TextBlob(text).sentiment for text in symptoms ]
+
+    # cv = CountVectorizer(stop_words='english')
+    # data_cv = cv.fit_transform(data_clean)
 
     return features, y, feature_names, X
 
