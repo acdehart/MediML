@@ -6,9 +6,13 @@ from FeatureElimination import RecursiveFeatureElimination
 from SmoteUpsample import SmoteTest
 from XGB import get_classifier
 from textblob import TextBlob
+import pyroot
 
 
 def ExtractData(column_names, y_name):
+
+    'TVAERS_ntuple.root'
+
     X = pd.DataFrame()
     X.to_pickle("./med_data.pkl")
     X = pd.read_pickle("./med_data.pkl")
