@@ -10,6 +10,18 @@ def PrepareData():
     # Load CSV to Pandas DF
     pass
 
+def clean_string(input_string):
+    # All text lower,
+    # remove punctuation
+    # remove numerical values
+    # remove non speech (eg '\n')
+    # tokenize text
+    # remove stop words
+
+    # stemming/ lemmazation
+    # parts of speech tagging
+
+
 
 def main():
 
