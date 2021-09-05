@@ -14,6 +14,8 @@ from convert_ntuple_df import root_to_df
 
 
 def ExtractData(column_names, y_name):
+    if not column_names or not y_name:
+        raise ValueError("Feed me daddy!!!")
     X = root_to_df('TVAERS_ntuple.root', column_names)
     print(X)
     y = X[y_name]
