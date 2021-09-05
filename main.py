@@ -1,3 +1,5 @@
+from random import random
+
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
@@ -7,15 +9,13 @@ from SmoteUpsample import SmoteTest
 from XGB import get_classifier
 from textblob import TextBlob
 import pyroot
+# from root_pandas import read_root
+from convert_ntuple_df import root_to_df
 
 
 def ExtractData(column_names, y_name):
-
-    'TVAERS_ntuple.root'
-
-    X = pd.DataFrame()
-    X.to_pickle("./med_data.pkl")
-    X = pd.read_pickle("./med_data.pkl")
+    X = root_to_df('TVAERS_ntuple.root', column_names)
+    print(X)
     y = X[y_name]
     feature_names = column_names.remove(y_name)
     features = X[feature_names]
@@ -31,33 +31,35 @@ def ExtractData(column_names, y_name):
 
 
 def PrepareData():
-    column_names = ['died', 'recovered', 'hospitalized', 'ext_stay', 'disabled', 'l_threat', 'er_visit', 'hospital_days', 'days_to_death', 'days_to_onset', 'n_symptoms']
+    column_names = ['vaers_id', 'age_yrs', 'died', 'datedied', 'l_threat', 'er_visit', 'hospital', 'hospdays', 'x_stay',
+                    'disable', 'recovd', 'vax_date', 'numdays', 'symptoms']
     features, feature_names, y, df = ExtractData(column_names=column_names, y_name='died')
     return features, y, feature_names, df
 
 
 def main():
-
+    print("*** MediML ***")
     # COLLECT DATA
     # PrepareData()
     features, y, feature_names, df = PrepareData()
 
     # SPLIT SAMPLES
-    features_train, features_test, y_train, y_test, df_train, df_test = train_test_split(features, y, df, test_size=0.3, stratify=y, random_state=42)
+    features_train, features_test, y_train, y_test, df_train, df_test = train_test_split(features, y, df, test_size=0.3,
+                                                                                         stratify=y, random_state=42)
 
     # BALANCE CLASSES
-    features_train, y_train = BootStrap(features_train, y_train)
+    # features_train, y_train = BootStrap(features_train, y_train)
     # features_train, y_train = SmoteTest(features_train, y_train)
 
     # REMOVE USELESS DATA
-    features_train, features_test, feature_names = RecursiveFeatureElimination(features_train, features_test, y_train, feature_names)
-    features_train = pd.DataFrame(features_train, columns=feature_names)
-    features_test = pd.DataFrame(features_test, columns=feature_names)
+    # features_train, features_test, feature_names = RecursiveFeatureElimination(features_train, features_test, y_train, feature_names)
+    # features_train = pd.DataFrame(features_train, columns=feature_names)
+    # features_test = pd.DataFrame(features_test, columns=feature_names)
 
     # TRAIN ML MODEL
-    clf = get_classifier()
-    clf_name = 'XGBoost'
-    clf.fit(features_train, y_train)
+    # clf = get_classifier()
+    # clf_name = 'XGBoost'
+    # clf.fit(features_train, y_train)
 
     # EVALUATE
     # plot_confusion_matrix()
@@ -68,3 +70,6 @@ def main():
 if __name__ == '__main__':
     main()
 
+    my_list = [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7]
+
+    print(random.choice(my_list))
