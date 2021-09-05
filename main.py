@@ -20,7 +20,8 @@ def ExtractData(column_names, y_name):
     # symptom_sentiment = [TextBlob(text).sentiment for text in symptoms ]
 
     # cv = CountVectorizer(stop_words='english')
-    # data_cv = cv.fit_transform(data_clean)
+    # data_cv = cv.fit_transform(X['symptoms'])
+    # data_dtm = pd.DataFrame(data_cv.toarray(), columns=feature_names)
 
     return features, y, feature_names, X
 
