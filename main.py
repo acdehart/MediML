@@ -4,14 +4,19 @@ from sklearn.model_selection import train_test_split
 from FeatureElimination import RecursiveFeatureElimination
 from SmoteUpsample import SmoteTest
 from XGB import get_classifier
+from textblob import TextBlob
 
 
 def ExtractData(column_names, y_name):
-
     X = pd.DataFrame()
+    X.to_pickle("./med_data.pkl")
+    X = pd.read_pickle("./med_data.pkl")
     y = X[y_name]
     feature_names = column_names.remove(y_name)
     features = X[feature_names]
+
+    # symptoms = X['symptoms']
+    # symptom_sentiment = [TextBlob(text).sentiment for text in symptoms ]
 
     return features, y, feature_names, X
 
