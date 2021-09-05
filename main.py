@@ -8,7 +8,7 @@ from XGB import get_classifier
 
 def ExtractData(column_names, y_name):
 
-    X = # Load df with data having given column names
+    X = pd.DataFrame()
     y = X[y_name]
     feature_names = column_names.remove(y_name)
     features = X[feature_names]
