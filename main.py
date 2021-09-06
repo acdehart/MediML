@@ -30,9 +30,20 @@ def ExtractData(column_names, y_name):
     column_names.remove('datedied')
     column_names.remove('vax_date')
     column_names.remove('symptoms')
+    column_names.remove('vaers_id')
 
+    # X['time_to_death']
+    # num days -> time to onset
     # Add columns to X and column_names
     # Add float version of symptoms
+    # Add regression score
+
+    bool_chart = ['died', 'l_threat', 'er_visit', 'hospital', 'x_stay', 'disable', 'recovd']
+    severity_scores = []
+    for chart in X[bool_chart]:
+        print(X['chart'])
+
+    X['Severity'] = severity_scores
 
     # EXTRACT LISTS
     X = X[:100]
@@ -53,7 +64,7 @@ def ExtractData(column_names, y_name):
 
 def PrepareData():
     column_names = ['datedied', 'vax_date', 'vaers_id', 'age_yrs', 'died', 'l_threat', 'er_visit', 'hospital', 'hospdays', 'x_stay', 'disable', 'recovd', 'numdays', 'symptoms']
-    features, feature_names, y, df = ExtractData(column_names=column_names, y_name='died')
+    features, feature_names, y, df = ExtractData(column_names=column_names, y_name='severity')
     return features, y, feature_names, df
 
 
@@ -65,7 +76,7 @@ def main():
 
     # SPLIT SAMPLES
     print(f"selected_names: {len(feature_names)}")
-    print(f"features: {features.shape}")
+    print(f"features: {features}")
     print(f"y: {y.shape}")
     print(f"df: {df.shape}")
     features_train, features_test, y_train, y_test, df_train, df_test = train_test_split(features, y, df, test_size=0.3,stratify=y, random_state=42)
@@ -76,7 +87,7 @@ def main():
     # print(f"After smote: {features_train.shape}")
 
     # REMOVE USELESS DATA
-    features_train, features_test, feature_names = RecursiveFeatureElimination(features_train, features_test, y_train, feature_names)
+    # features_train, features_test, feature_names = RecursiveFeatureElimination(features_train, features_test, y_train, feature_names)
     features_train = pd.DataFrame(features_train, columns=feature_names)
     features_test = pd.DataFrame(features_test, columns=feature_names)
     print(f"Surviving Features: {feature_names}")
