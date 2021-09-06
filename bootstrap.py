@@ -1,4 +1,10 @@
-def bootstrap(input_data,sample_diff,n_bootstrap):
+import numpy as np
+
+
+def bootstrap(input_data, sample_diff, n_bootstrap=2):
+
+
+
     n_samples = len(input_data)
     if n_samples == 0:
         raise ValueError("empty input data array")
