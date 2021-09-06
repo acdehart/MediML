@@ -26,6 +26,7 @@ def ExtractData(column_names, y_name):
     # REMOVE DATA
     column_names.remove('datedied')
     column_names.remove('vax_date')
+    column_names.remove('symptoms')
 
     # EXTRACT LISTS
     X = X[:100]
@@ -75,9 +76,9 @@ def main():
     print(f"Surviving Features: {feature_names}")
 
     # TRAIN ML MODEL
-    # clf = get_classifier()
-    # clf_name = 'XGBoost'
-    # clf.fit(features_train, y_train)
+    clf = get_classifier()
+    clf_name = 'XGBoost'
+    clf.fit(features_train, y_train)
 
     # EVALUATE
     # plot_confusion_matrix()
