@@ -40,15 +40,17 @@ def ExtractData(column_names, y_name):
 
     bool_chart = ['died', 'l_threat', 'er_visit', 'hospital', 'x_stay', 'disable', 'recovd']
     severity_scores = []
-    for chart in X[bool_chart]:
-        print(X['chart'])
+    # for chart in bool_chart:
+    for row in X['died']:
+        severity_scores.append(row)
 
-    X['Severity'] = severity_scores
+    X[y_name] = severity_scores
+    print(X[y_name])
 
     # EXTRACT LISTS
     X = X[:100]
     y = X[[y_name]]
-    column_names.remove(y_name)
+    # column_names.remove(y_name)
     features = X[column_names]
 
     # symptoms = X['symptoms']
