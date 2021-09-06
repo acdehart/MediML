@@ -28,6 +28,9 @@ def ExtractData(column_names, y_name):
     column_names.remove('vax_date')
     column_names.remove('symptoms')
 
+    # Add columns to X and column_names
+    # Add float version of symptoms
+
     # EXTRACT LISTS
     X = X[:100]
     y = X[[y_name]]
