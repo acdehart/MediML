@@ -93,6 +93,7 @@ def clean_bool_int(in_bool, reverse=False):
 
 
 def plot_confusion_matrix(clf, features_test, y_test):
+    # https://queirozf.com/entries/visualizing-machine-learning-models-examples-with-scikit-learn-and-matplotlib
     y_pred = clf.predict(features_test)
     print(y_pred)
     matrix = confusion_matrix(y_test, y_pred)
@@ -123,9 +124,10 @@ def plot_confusion_matrix(clf, features_test, y_test):
     plt.show()
 
 def plot_roc(clf, X_train, y_train, features_test, y_test):
+    # https://queirozf.com/entries/visualizing-machine-learning-models-examples-with-scikit-learn-and-matplotlib
     param_grid = [
         {
-            'pca__n_components': [5, 10, 20],
+            'pca__n_components': [2, 4, 8],
             'clf__n_estimators': [5, 20, 50, 100, 200],
             'clf__max_depth': [1, 2, 3, 4]
         }
@@ -209,8 +211,8 @@ def main():
     clf.fit(features_train, y_train)
 
     # EVALUATE
-    plot_confusion_matrix(clf, features_test, y_test)
-    # plot_roc(clf, features_test, y_test, features_test, y_test) # plot_decission_surface(clf, features_train, y_train, feature_names)
+    # plot_confusion_matrix(clf, features_test, y_test)
+    plot_roc(clf, features_test, y_test, features_test, y_test) # plot_decission_surface(clf, features_train, y_train, feature_names)
     # plot_tree(clf, num_trees=0, rankdir='LR')
 
 
