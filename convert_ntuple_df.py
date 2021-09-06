@@ -15,6 +15,8 @@ def root_to_df(root_path, column_names):
         tree_pd = tree.arrays(column_names, library="pd")
         tree_pd.to_pickle("./med_data.pkl")
 
+    # Manage datedied and vax_date
+
     return tree_pd
 
 ###### List of all keys in TVAERS_ntuple.root TTree object
