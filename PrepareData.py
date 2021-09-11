@@ -10,7 +10,7 @@ def ExtractData(column_names, y_name):
     pd.set_option("display.max_rows", 10000)
     pd.set_option("display.width", 4000)
     pd.set_option("display.max_columns", 999)
-    X = root_to_df('TVAERS_ntuple.root', column_names)
+    X = root_to_df('TVAERS_ntuple_v2.root', column_names)
 
     # REMOVE DATA
     X = X.replace({4294967295: 0})

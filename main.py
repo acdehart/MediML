@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split, RepeatedStratifiedKFold, G
 
 from Evaluation import plot_confusion_matrix, plot_decision_surface
 from PrepareData import PrepareData
+from SmoteUpsample import SmoteTest
 from XGB import get_classifier
 # from root_pandas import read_root
 from bootstrap import BootstrapUpsample
@@ -19,8 +20,8 @@ def main():
     features_train, features_test, y_train, y_test, df_train, df_test = train_test_split(features, y, df, test_size=0.3,stratify=y, random_state=42)
 
     # BALANCE CLASSES
-    features_train, y_train = BootstrapUpsample(features_train, y_train)
-    # features_train, y_train = SmoteTest(features_train, y_train)
+    # features_train, y_train = BootstrapUpsample(features_train, y_train)
+    features_train, y_train = SmoteTest(features_train, y_train)
     # print(f"After smote: {features_train.shape}")
 
     # REMOVE USELESS DATA
