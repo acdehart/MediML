@@ -40,7 +40,7 @@ def ExtractData(column_names, y_name):
     print("Severity", max(X['severity']), sum(X['severity'])/len(X['severity']), min(X['severity']))
 
     # EXTRACT LISTS
-    X = X[:100]
+    X = X[:1000]
     y = X[[y_name]]
     # column_names.remove(y_name)
     features = X[column_names]

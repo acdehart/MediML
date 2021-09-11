@@ -18,6 +18,8 @@ def BootstrapUpsample(features_train, y_train):
             df = bootstrap(df, diff)
         out_df = out_df.append(df)
 
+    out_df = out_df.reindex()
+
     y_train = out_df['y']
 
     features_train = out_df.loc[:, out_df.columns != 'y']

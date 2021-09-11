@@ -105,10 +105,22 @@ def plot_roc(clf, X_train, y_train, features_test, y_test):
 def get_class_names():
     return ['not severe', 'severe']
 
+
+def check_index(X, y):
+    X_index = set(X.index.tolist())
+    y_index = set(y.index.tolist())
+    if X_index != y_index:
+        raise ValueError(f"X&y don't share the same set of indices\nX:{X_index}\ny:{y_index}")
+
+
 def plot_decision_surface(clf, features_train, y_train, feature_names):
+    check_index(features_train, y_train)
     plt.show()
     plt.close()
     plt.cla()
+    # print(feature_names)
+    # print(features_train)
+    # print(y_train)
     # https://scikit-learn.org/stable/auto_examples/tree/plot_iris_dtc.html#sphx-glr-auto-examples-tree-plot-iris-dtc-py
     pair_names = ['age_yrs', 'disable']
     # pair_names = ['r2048.0', 'width', 'r_average', 'r0.09']
@@ -136,7 +148,7 @@ def plot_decision_surface(clf, features_train, y_train, feature_names):
         print(".", end="")
         # Take only 2 isolated features
         X = features_train.loc[:, [feature_names[pair[0]], feature_names[pair[1]]]]
-        # print(X)
+        check_index(X, y_train)
 
         clf.fit(X, y_train)
 
@@ -155,10 +167,24 @@ def plot_decision_surface(clf, features_train, y_train, feature_names):
         plt.xlabel(feature_names[pair[0]])
         plt.ylabel(feature_names[pair[1]])
 
+        check_index(X, y_train)
+
         for i, color in zip(plot_numbers, plot_colors):
-            print(f"HEY! {i}, {color}, {class_names[i]}, {feature_names[pair[0]]}, {feature_names[pair[1]]}")
-            print('.', end='')
+            # print(f"HEY! {i}, {color}, {class_names[i]}, {feature_names[pair[0]]}, {feature_names[pair[1]]}")
+            # print(X)
+            # print('.', end='')
+            print(y_train)
             idx = np.where(y_train == i)
+            # input(idx)
+            for index in idx[0]:
+
+                # input(index)
+                if index not in X.index.tolist():
+                    raise ValueError(f"Y index {index} does not pair with any row in X {X.index.tolist()}")
+            # print(X.loc[idx, feature_names[pair[0]]])
+            # print(idx)
+            # X_temp = X.loc[idx, [feature_names[pair[0]]]]
+            # input(X_temp)
             plt.scatter(X.loc[idx, feature_names[pair[0]]], X.loc[idx, feature_names[pair[1]]], c=color,
                         label=class_names[i],
                         cmap=plt.cm.RdYlGn, edgecolor='black', s=15)
