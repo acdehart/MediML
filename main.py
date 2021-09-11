@@ -20,7 +20,7 @@ from XGB import get_classifier
 from textblob import TextBlob
 import pyroot
 # from root_pandas import read_root
-from bootstrap import bootstrap
+from bootstrap import bootstrap, BootstrapUpsample
 
 from convert_ntuple_df import root_to_df
 
@@ -62,7 +62,7 @@ def ExtractData(column_names, y_name):
     print("Severity", max(X['severity']), min(X['severity']))
 
     # EXTRACT LISTS
-    # X = X[:500000]
+    X = X[:500]
     y = X[[y_name]]
     # column_names.remove(y_name)
     features = X[column_names]
@@ -194,7 +194,8 @@ def main():
     features_train, features_test, y_train, y_test, df_train, df_test = train_test_split(features, y, df, test_size=0.3,stratify=y, random_state=42)
 
     # BALANCE CLASSES
-    # features_train, y_train = bootstrap(features_train, y_train)
+    features_train, y_train = BootstrapUpsample(features_train, y_train)
+    input("Did it work?...")
     # features_train, y_train = SmoteTest(features_train, y_train)
     # print(f"After smote: {features_train.shape}")
 
