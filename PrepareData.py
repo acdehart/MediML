@@ -4,20 +4,23 @@ from convert_ntuple_df import root_to_df
 
 
 def ExtractData(column_names, y_name):
-    if not column_names or not y_name:
-        raise ValueError("Feed me daddy!!!")
+    # if not column_names:
+    #     raise ValueError("Feed me daddy!!!")
 
     pd.set_option("display.max_rows", 10000)
     pd.set_option("display.width", 4000)
     pd.set_option("display.max_columns", 999)
-    X = root_to_df('TVAERS_ntuple_v2.root', column_names)
+    root_path = 'TVAERS_ntuple_v2.root'
+    column_names = []
+    X = root_to_df(root_path, column_names)
 
     # REMOVE DATA
-    X = X.replace({4294967295: 0})
-    column_names.remove('datedied')
-    column_names.remove('vax_date')
-    column_names.remove('symptoms')
-    column_names.remove('vaers_id')
+    # X = X.replace({4294967295: 0})
+    # column_names.remove('datedied')
+    # column_names.remove('vax_date')
+    # column_names.remove('symptoms')
+    # column_names.remove('vaers_id')
+    # input(X)
 
     # X['time_to_death']
     # num days -> time to onset
@@ -35,8 +38,8 @@ def ExtractData(column_names, y_name):
     print(f"0:{severity_scores.count(0)}")
     print(f"1:{severity_scores.count(1)}")
     X[y_name] = severity_scores
-    column_names.remove('died')
-    column_names.remove('recovd')
+    # column_names.remove('died')
+    # column_names.remove('recovd')
     print("Severity", max(X['severity']), sum(X['severity'])/len(X['severity']), min(X['severity']))
 
     # EXTRACT LISTS

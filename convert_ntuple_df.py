@@ -5,15 +5,19 @@ import uproot
 import pandas as pd
 
 def root_to_df(root_path, column_names):
-    pickle_path = "./med_data.pkl"
+
+    pickle_path = f"./med_data_{root_path.split('.')[0]}.pkl"
     if os.path.exists(pickle_path):
         tree_pd = pd.read_pickle(pickle_path)
     else:
         file = uproot.open(root_path)
         tree_key = file.keys()[0]
         tree = file[tree_key]
+        column_names = file['TVAERS;1'].keys()
+        print(column_names)
         tree_pd = tree.arrays(column_names, library="pd")
-        tree_pd.to_pickle("./med_data.pkl")
+        tree_pd.to_pickle(pickle_path)
+        input("Done Pickling!")
 
     # Manage datedied and vax_date
 

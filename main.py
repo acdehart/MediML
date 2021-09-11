@@ -16,7 +16,9 @@ def main():
     features, y, feature_names, df = PrepareData()
 
     # SPLIT SAMPLES
-    print(f"{features.head(1)}")
+    input(f"features: {features.shape}")
+    if features.shape[1] == 0:
+        raise BlockingIOError("PrepareData() Failed")
     features_train, features_test, y_train, y_test, df_train, df_test = train_test_split(features, y, df, test_size=0.3,stratify=y, random_state=42)
 
     # BALANCE CLASSES
